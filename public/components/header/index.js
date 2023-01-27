@@ -1,10 +1,13 @@
-import { VStack, Text, HStack, Image, Avatar, useMediaQuery } from "@chakra-ui/react";
+import { VStack, Text, HStack, Image, Avatar, useMediaQuery, Box } from "@chakra-ui/react";
 import { usePage } from '../../components/context/usercontext'
 import { useAppSelector } from "../../redux/store";
+import { AiOutlineLogout } from 'react-icons/ai'
+import { useRouter } from "next/router";
 
 const Header = () => {
     const [isLargerThan600] = useMediaQuery('(min-width: 600px)')
     const { page, setPage } = usePage();
+    const router = useRouter();
 
     const { user } = useAppSelector(({ authReducer }) => authReducer);
 
@@ -41,7 +44,7 @@ const Header = () => {
                     </Text>
                 </HStack>
                 <HStack
-                cursor='pointer'
+                    cursor='pointer'
                     borderRadius='40px'
                     height='40px'
                     width='100px'
@@ -70,9 +73,13 @@ const Header = () => {
                             fontFamily='Outfit'
                             color='#000'
                             fontSize='20px'
-                        >{user?.firstName } {user?.lastName}</Text>
+                        >{user?.firstName} {user?.lastName}</Text>
                     )
                 }
+                <Box cursor='pointer'>
+                    <AiOutlineLogout color="red" onClick={() => router.push('/')} />
+                </Box>
+
             </HStack>
 
         </HStack>

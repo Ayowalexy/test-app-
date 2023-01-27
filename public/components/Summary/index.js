@@ -15,6 +15,7 @@ const Summary = () => {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const { page } = usePage();
+    const [data, setData] = useState([])
     const { allProducts, allUsers } = useAppSelector(({ authReducer }) => authReducer);
 
     useEffect(() => {
@@ -22,16 +23,20 @@ const Summary = () => {
         dispatch(getProducts())
     }, [])
 
-    const data = [
-        {
-            type: "Number of users",
-            value: allUsers?.length
-        },
-        {
-            type: "Number of products",
-            value: allProducts?.length
-        },
-    ]
+    useEffect( () => {
+        const d = [
+            {
+                type: "Number of users",
+                value: allUsers?.length
+            },
+            {
+                type: "Number of products",
+                value: allProducts?.length
+            },
+        ]
+
+        setData(d)
+    }, [allProducts, allUsers]) 
 
     return (
         <VStack align='flex-start'>
@@ -118,7 +123,7 @@ const Summary = () => {
 
                 <HStack gap='30px' flexDir={{ base: 'column', md: 'row', lg: 'row' }} width='100%'>
                     {
-                        data.splice(data.length - 2, ).map(element => (
+                        data.map(element => (
                             <HStack
                                 key={element.value}
                                 height='100px'
